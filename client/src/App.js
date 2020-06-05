@@ -1,12 +1,12 @@
 import React from 'react';
 import './App.css';
-import Spotify from 'spotify-web-api-js';
+import SpotifyWebAPI from 'spotify-web-api-js';
 
-const spotifyWebAPI = new Spotify();
+const spotifyWebAPI = new SpotifyWebAPI();
 
 class App extends React.Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     const params = this.getHashParams(); // this will give us an object that has an access token and refresh token
     if (params.access_token) {
       spotifyWebAPI.setAccessToken(params.access_token);
@@ -40,20 +40,28 @@ class App extends React.Component {
       });
   }
   render() {
-    return (
-      <div className="App">
-        <a href="http://localhost:8888">
-          <button>Login With Spotify</button>
-        </a>
-        <div>Now Playing { this.state.nowPlaying.name }</div>
-        <div>
-          <img src={ this.state.nowPlaying.albumArt } alt="album cover for song currently playing" style={ { width: 100 } } />
+    if (!this.state.loggedIn) {
+      return (
+        <div className="App">
+          <a href="http://localhost:8888">
+            <button>Login With Spotify</button>
+          </a>
         </div>
-        { this.state.loggedIn &&
-          <button onClick={ () => this.getNowPlaying() }>Check Now Playing</button>
-        }
-      </div>
-    )
+      )
+    }
+    else {
+      return (
+        <div className="App">
+          <div>Now Playing { this.state.nowPlaying.name }</div>
+          <div>
+            <img src={ this.state.nowPlaying.albumArt } alt="album cover for song currently playing" style={ { width: 100 } } />
+          </div>
+          { this.state.loggedIn &&
+            <button onClick={ () => this.getNowPlaying() }>Check Now Playing</button>
+          }
+        </div>
+      )
+    }
   }
 }
 
