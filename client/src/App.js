@@ -1,68 +1,154 @@
-import React from 'react';
-import './App.css';
-import SpotifyWebAPI from 'spotify-web-api-js';
+import React from "react";
+import "./App.css";
+import SpotifyWebAPI from "spotify-web-api-js";
 
 const spotifyWebAPI = new SpotifyWebAPI();
 
+let searchParams = new URLSearchParams(window.location.search);
+let accessToken = searchParams.get("access_token");
+
 class App extends React.Component {
-  constructor(props) {
-    super(props);
-    const params = this.getHashParams(); // this will give us an object that has an access token and refresh token
-    if (params.access_token) {
-      spotifyWebAPI.setAccessToken(params.access_token);
+    constructor(props) {
+        super(props);
+        if (accessToken) {
+            spotifyWebAPI.setAccessToken(accessToken);
+        }
+        this.state = {
+            loggedIn: accessToken ? true : false,
+            topArtists: {},
+            user: {},
+            userFollowedArtists: {},
+            userPlaylists: {},
+            nowPlaying: {
+                name: "Not checked",
+                albumArt: "",
+            },
+            isLoaded: false,
+        };
     }
-    this.state = {
-      loggedIn: params.access_token ? true : false,
-      nowPlaying: {
-        name: "Not checked",
-        albumArt: ""
-      },
-    }
-  }
-  getHashParams() {
-    var hashParams = {};
-    var e, r = /([^&;=]+)=?([^&;]*)/g,
-        q = window.location.hash.substring(1);
-    while ( e = r.exec(q)) {
-        hashParams[e[1]] = decodeURIComponent(e[2]);
-    }
-    return hashParams;
-  }
-  getNowPlaying() {
-    spotifyWebAPI.getMyCurrentPlaybackState()
-      .then((res) => { // let's try logging the resonse object res tomorrow to get a better understanding of what's happening here
-        this.setState({
-          nowPlaying: {
-            name: res.item.name,
-            albumArt: res.item.album.images[0].url
-          }
+    getNowPlaying() {
+        spotifyWebAPI.getMyCurrentPlaybackState().then((res) => {
+            this.setState({
+                nowPlaying: {
+                    name: res.item.name,
+                    albumArt: res.item.album.images[0].url,
+                },
+            });
         });
-      });
-  }
-  render() {
-    if (!this.state.loggedIn) {
-      return (
-        <div className="App">
-          <a href="http://localhost:8888">
-            <button>Login With Spotify</button>
-          </a>
-        </div>
-      )
     }
-    else {
-      return (
-        <div className="App">
-          <div>Now Playing { this.state.nowPlaying.name }</div>
-          <div>
-            <img src={ this.state.nowPlaying.albumArt } alt="album cover for song currently playing" style={ { width: 100 } } />
-          </div>
-          { this.state.loggedIn &&
-            <button onClick={ () => this.getNowPlaying() }>Check Now Playing</button>
-          }
-        </div>
-      )
+    componentDidMount() {
+        let fetchTopArtists = fetch(
+            "https://api.spotify.com/v1/me/top/artists?time_range=long_term&limit=50&offset=0",
+            {
+                headers: { Authorization: "Bearer " + accessToken },
+            }
+        )
+            .then((res) => res.json())
+            .then((res) => {
+                this.setState({
+                    topArtists: res,
+                });
+                console.log(
+                    "this.state.topArtists from componentDidMount: ",
+                    this.state.topArtists
+                );
+            });
+        let fetchUser = fetch("https://api.spotify.com/v1/me", {
+            headers: { Authorization: "Bearer " + accessToken },
+        })
+            .then((res) => res.json())
+            .then((res) => {
+                this.setState({
+                    user: res,
+                });
+                console.log("USER", res);
+            });
+        let fetchUserFollowedArtists = fetch(
+            "https://api.spotify.com/v1/me/following?type=artist",
+            {
+                headers: { Authorization: "Bearer " + accessToken },
+            }
+        )
+            .then((res) => res.json())
+            .then((res) => {
+                this.setState({
+                    userFollowedArtists: res,
+                });
+                console.log("userFollowedArtists", res);
+            });
+        let fetchUserPlaylists = fetch(
+            "https://api.spotify.com/v1/me/playlists?limit=50",
+            {
+                headers: { Authorization: "Bearer " + accessToken },
+            }
+        )
+            .then((res) => res.json())
+            .then((res) => {
+                this.setState({
+                    userPlaylists: res,
+                });
+                console.log("user playlists: ", res);
+            });
+        Promise.all([
+            fetchTopArtists,
+            fetchUser,
+            fetchUserFollowedArtists,
+            fetchUserPlaylists,
+        ])
+            .then(() => {
+                this.setState({
+                    isLoaded: true,
+                });
+                console.log("Everything has been loaded.");
+            })
+            .catch((err) => console.log(err));
     }
-  }
+    render() {
+        console.log("just checking", this.state.topArtists);
+        return (
+            <div className="App">
+                {this.state.loggedIn ? (
+                    <React.Fragment>
+                        {this.state.isLoaded ? (
+                            <div className="container">
+                                <a href={this.state.user.uri}>
+                                    {this.state.user.images.length > 0 ? (
+                                        <img
+                                            src={this.state.user.images[0].url}
+                                            alt="avatar"
+                                        />
+                                    ) : (
+                                        <h1>No profile picture to display</h1>
+                                    )}
+                                </a>
+                                <h1>
+                                    Welcome, {this.state.user.display_name}{" "}
+                                </h1>
+                                <h2>
+                                    You have {this.state.user.followers.total}{" "}
+                                    followers
+                                </h2>
+                                <h2>
+                                    You have {this.state.userPlaylists.total}{" "}
+                                    playlists
+                                </h2>
+                            </div>
+                        ) : (
+                            <h1>Loading...</h1>
+                        )}
+                    </React.Fragment>
+                ) : (
+                    <a href="http://localhost:8888">
+                        <button>Login With Spotify</button>
+                    </a>
+                )}
+            </div>
+        );
+    }
+}
+
+if (true) {
+    console.log("something");
 }
 
 export default App;
