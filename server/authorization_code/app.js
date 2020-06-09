@@ -7,16 +7,17 @@
  * https://developer.spotify.com/web-api/authorization-guide/#authorization_code_flow
  */
 
+require("dotenv").config({ path: "../.env" });
+
 var express = require("express"); // Express web server framework
 var request = require("request"); // "Request" library
-var cors = require("cors");
 var querystring = require("querystring");
 var cookieParser = require("cookie-parser");
-require("dotenv").config();
 
 var client_id = process.env.SPOTIFY_CLIENT_ID; // Your client id
 var client_secret = process.env.SPOTIFY_CLIENT_SECRET; // Your secret
-var redirect_uri = "http://localhost:8888/callback"; // Your redirect uri
+// var redirect_uri = "http://localhost:8888/callback"; // Your redirect uri
+var redirect_uri = "http://192.168.1.142:8888/callback"; // Your redirect uri
 const port = process.env.PORT || 8888;
 
 /**
@@ -39,9 +40,7 @@ var stateKey = "spotify_auth_state";
 
 var app = express();
 
-app.use(express.static(__dirname + "/public"))
-    .use(cors())
-    .use(cookieParser());
+app.use(express.static(__dirname + "/public")).use(cookieParser());
 
 app.get("/login", function (req, res) {
     var state = generateRandomString(16);
@@ -50,7 +49,7 @@ app.get("/login", function (req, res) {
     // your application requests authorization
     var scope =
         "user-read-private user-read-email user-read-playback-state \
-         user-top-read user-follow-read playlist-read-private";
+   user-top-read user-follow-read playlist-read-private user-library-modify";
     res.redirect(
         "https://accounts.spotify.com/authorize?" +
             querystring.stringify({
@@ -115,7 +114,7 @@ app.get("/callback", function (req, res) {
 
                 // we can also pass the token to the browser to make requests from there
                 res.redirect(
-                    "http://localhost:3000/?" +
+                    "http://192.168.1.142:3000/?" +
                         querystring.stringify({
                             access_token: access_token,
                             refresh_token: refresh_token,
