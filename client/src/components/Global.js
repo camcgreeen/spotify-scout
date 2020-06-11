@@ -1,5 +1,6 @@
 import React from "react";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import { accessToken } from "../helper";
 import "../App.css";
 import Home from "./Home";
 import Nav from "./Nav";
@@ -12,7 +13,7 @@ class Global extends React.Component {
   constructor(props) {
     super(props);
     console.log("PROPS, ", this.props);
-    this.token = this.props.token;
+    this.token = accessToken;
     this.state = {
       topArtists: {},
       user: {},
@@ -27,6 +28,7 @@ class Global extends React.Component {
     this.getTrackPreview = this.getTrackPreview.bind(this);
   }
   componentDidMount() {
+    console.log("ACCESS_TOKEN = " + this.token);
     let fetchUser = async () => {
       let response = await fetch("https://api.spotify.com/v1/me", {
         headers: { Authorization: "Bearer " + this.token },

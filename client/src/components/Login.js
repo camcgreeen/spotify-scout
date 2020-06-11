@@ -5,7 +5,7 @@ class Login extends React.Component {
   render() {
     return (
       <div className="Login">
-        <a href={"http://192.168.1.142:8888"}>
+        <a href={"http://192.168.1.142:8888/login"}>
           <button>Login With Spotify</button>
         </a>
       </div>

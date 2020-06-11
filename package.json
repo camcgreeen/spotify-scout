@@ -1,0 +1,26 @@
+{
+  "name": "scout",
+  "version": "0.1.0",
+  "description": "Explore new music easily and conveniently.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/camcgreen/spotify-scout.git"
+  },
+  "keywords": [
+    "spotify",
+    "api",
+    "discover",
+    "new",
+    "music"
+  ],
+  "author": "Cam Green",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/camcgreen/spotify-scout/issues"
+  },
+  "homepage": "https://github.com/camcgreen/spotify-scout#readme"
+}

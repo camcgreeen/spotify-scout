@@ -1,10 +1,8 @@
 import React from "react";
 import "../App.css";
+import { accessToken } from "../helper";
 import Login from "./Login";
 import Global from "./Global";
-
-let searchParams = new URLSearchParams(window.location.search);
-let accessToken = searchParams.get("access_token");
 
 class App extends React.Component {
   constructor(props) {
@@ -15,11 +13,7 @@ class App extends React.Component {
   }
   render() {
     const { loggedIn } = this.state;
-    return (
-      <div className="App">
-        {loggedIn ? <Global token={accessToken} /> : <Login />}
-      </div>
-    );
+    return <div className="App">{loggedIn ? <Global /> : <Login />}</div>;
   }
 }
 

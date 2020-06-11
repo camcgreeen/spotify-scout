@@ -8,7 +8,9 @@ class Nav extends React.Component {
   render() {
     return (
       <nav>
-        <h3>Logo</h3>
+        <Link to="/" style={this.navStyle}>
+          <h3>Logo</h3>
+        </Link>
         <ul className="nav-links">
           <Link to="/" style={this.navStyle}>
             <li>Home</li>
