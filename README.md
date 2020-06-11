@@ -1,6 +1,6 @@
-# Spotify Profile Overview
+# Spotify Scout
 
-> Overview your Spotify profile, including your top artists, top tracks, recently played and playlists.
+> Explore new music, easily and conveniently.
 
 ## Built with
 
