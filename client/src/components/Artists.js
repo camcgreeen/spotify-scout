@@ -1,5 +1,6 @@
 import React from "react";
 import "../App.css";
+import { Link } from "react-router-dom";
 import { fetchTopArtists } from "../helper";
 
 class Artists extends React.Component {
@@ -32,7 +33,9 @@ class Artists extends React.Component {
           <React.Fragment>
             <ul>
               {topArtists.items.map((artist) => (
-                <li>{artist.name}</li>
+                <li>
+                  <Link to={`/scout/artist/${artist.id}`}>{artist.name}</Link>
+                </li>
               ))}
             </ul>
           </React.Fragment>

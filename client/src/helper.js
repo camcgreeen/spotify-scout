@@ -7,7 +7,7 @@ const headers = {
 };
 
 export const fetchTopArtists = async () => {
-  let response = await fetch(
+  const response = await fetch(
     "https://api.spotify.com/v1/me/top/artists?time_range=long_term&limit=50",
     { headers }
   );
@@ -15,8 +15,17 @@ export const fetchTopArtists = async () => {
 };
 
 export const fetchTopTracks = async () => {
-  let response = await fetch(
+  const response = await fetch(
     "https://api.spotify.com/v1/me/top/tracks?time_range=long_term&limit=50",
+    { headers }
+  );
+  return await response.json();
+};
+
+export const fetchRecommendations = async (type, id) => {
+  // type can be "tracks", "artists" or "genres"
+  let response = await fetch(
+    `https://api.spotify.com/v1/recommendations?limit=100&seed_${type}=${id}&min_energy=0.4&min_popularity=50`,
     { headers }
   );
   return await response.json();

@@ -1,5 +1,6 @@
 import React from "react";
 import "../App.css";
+import { Link } from "react-router-dom";
 import { fetchTopTracks } from "../helper";
 
 class Tracks extends React.Component {
@@ -32,7 +33,11 @@ class Tracks extends React.Component {
             <h1>Top Tracks</h1>
             <ul>
               {topTracks.items.map((track) => (
-                <li>{`Track: ${track.name}, Artist: ${track.artists[0].name}`}</li>
+                <li>
+                  <Link
+                    to={`/scout/track/${track.id}`}
+                  >{`${track.name}, ${track.artists[0].name}`}</Link>
+                </li>
               ))}
             </ul>
           </React.Fragment>

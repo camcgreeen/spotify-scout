@@ -1,5 +1,6 @@
 import React from "react";
 import "../App.css";
+import { Link } from "react-router-dom";
 import { genres } from "../helper";
 
 class Genres extends React.Component {
@@ -18,10 +19,17 @@ class Genres extends React.Component {
         <ul>
           {genres.map((genre) => {
             // handle the case of that pesky second "h"
+            // fix this bit cos it's hacky
             return genre === "hip-hop" ? (
-              <li>{"Hip-Hop"}</li>
+              <Link to={`/scout/genre/${genre}`}>
+                <li>{"Hip-Hop"}</li>
+              </Link>
             ) : (
-              <li>{genre.charAt(0).toUpperCase() + genre.slice(1)}</li>
+              <li>
+                <Link to={`/scout/genre/${genre}`}>
+                  {genre.charAt(0).toUpperCase() + genre.slice(1)}
+                </Link>
+              </li>
             );
           })}
         </ul>
