@@ -48,11 +48,21 @@ export const fetchTopTracks = async () => {
 
 export const fetchRecommendations = async (type, id) => {
   // type can be "tracks", "artists" or "genres"
-  let response = await fetch(
+  const response = await fetch(
     `https://api.spotify.com/v1/recommendations?limit=100&seed_${type}=${id}&min_energy=0.4&min_popularity=50`,
     { headers }
   );
   return await response.json();
+};
+
+export const getTrackPreview = async (id) => {
+  if (accessToken) {
+    const response = await fetch("https://api.spotify.com/v1/tracks/" + id, {
+      headers,
+    });
+    const json = await response.json();
+    return await json.preview_url;
+  }
 };
 
 export const likeTrack = (id) => {
