@@ -1,8 +1,32 @@
 const searchParams = new URLSearchParams(window.location.search);
 export const accessToken = searchParams.get("access_token");
 
+export const genres = [
+  "acoustic",
+  "alternative",
+  "ambient",
+  "blues",
+  "dance",
+  "electronic",
+  "folk",
+  "funk",
+  "hip-hop",
+  "house",
+  "metal",
+  "party",
+  "pop",
+  "punk",
+  "reggae",
+  "rock",
+  "sleep",
+  "soul",
+  "study",
+  "techno",
+];
+
 const headers = {
   Authorization: "Bearer " + accessToken,
+  Accept: "application/json",
   "Content-Type": "application.json",
 };
 
@@ -31,25 +55,17 @@ export const fetchRecommendations = async (type, id) => {
   return await response.json();
 };
 
-export const genres = [
-  "acoustic",
-  "alternative",
-  "ambient",
-  "blues",
-  "dance",
-  "electronic",
-  "folk",
-  "funk",
-  "hip-hop",
-  "house",
-  "metal",
-  "party",
-  "pop",
-  "punk",
-  "reggae",
-  "rock",
-  "sleep",
-  "soul",
-  "study",
-  "techno",
-];
+export const likeTrack = (id) => {
+  console.log("You added a song to your Liked Songs, of id: " + id);
+  fetch("https://api.spotify.com/v1/me/tracks?ids=" + id, {
+    method: "PUT",
+    headers,
+  });
+};
+
+// capitalising that pesky second "h" in Hip-Hop
+export const convertGenreToProperNoun = (genre) => {
+  return genre === "hip-hop"
+    ? "Hip-Hop"
+    : genre.charAt(0).toUpperCase() + genre.slice(1);
+};

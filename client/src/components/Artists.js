@@ -1,5 +1,6 @@
 import React from "react";
 import "../App.css";
+import Loading from "./Loading";
 import { Link } from "react-router-dom";
 import { fetchTopArtists } from "../helper";
 
@@ -40,7 +41,7 @@ class Artists extends React.Component {
             </ul>
           </React.Fragment>
         ) : (
-          <h1>Loading...</h1>
+          <Loading />
         )}
       </div>
     );

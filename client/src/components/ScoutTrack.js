@@ -1,5 +1,6 @@
 import React from "react";
 import "../App.css";
+import Loading from "./Loading";
 import { fetchRecommendations } from "../helper";
 
 class ScoutTrack extends React.Component {
@@ -22,7 +23,7 @@ class ScoutTrack extends React.Component {
         this.props.match.params.id
       );
       console.log("TRACK RECOMMENDATIONS", json);
-      this.setState({ loaded: true, recommendations: json });
+      this.setState({ loaded: true, recommendations: json.tracks });
     } catch (err) {
       console.log("ERROR FETCHING TRACK RECOMMENDATIONS,", err);
     }
@@ -36,13 +37,13 @@ class ScoutTrack extends React.Component {
           <React.Fragment>
             <h1>Scouting based on track: {this.props.match.params.id}</h1>
             <ul>
-              {recommendations.tracks.map((track) => (
+              {recommendations.map((track) => (
                 <li>{`${track.name}, ${track.artists[0].name}`}</li>
               ))}
             </ul>
           </React.Fragment>
         ) : (
-          <h1>Loading</h1>
+          <Loading />
         )}
       </div>
     );

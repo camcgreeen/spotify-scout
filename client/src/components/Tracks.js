@@ -1,5 +1,6 @@
 import React from "react";
 import "../App.css";
+import Loading from "./Loading";
 import { Link } from "react-router-dom";
 import { fetchTopTracks } from "../helper";
 
@@ -42,7 +43,7 @@ class Tracks extends React.Component {
             </ul>
           </React.Fragment>
         ) : (
-          <h1>Loading...</h1>
+          <Loading />
         )}
       </div>
     );
