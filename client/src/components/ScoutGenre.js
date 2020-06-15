@@ -57,7 +57,7 @@ class ScoutGenre extends React.Component {
     return new Howl({
       src: [url],
       html5: true,
-      volume: 0.1,
+      volume: 0,
     });
     // this.setState({ trackList: [...this.state.trackList, track] });
   }
@@ -117,13 +117,25 @@ class ScoutGenre extends React.Component {
     // console.log("HOWL = ", track);
     // console.log(`TRYING TO PLAY SONG OF URL = ${url}`);
     // track.play();
+    const trackList = this.state.trackList;
+    const fadeDurationMilliseconds = 5000;
+    const trackDurationSeconds = 30;
     console.log("i = " + i);
     if (i !== 0) {
-      this.state.trackList[i - 1].stop();
+      trackList[i - 1].stop();
     }
-    if (i <= this.state.trackList.length) {
+    if (i <= trackList.length) {
       console.log(`TRYING TO PLAY SONG OF i = ${i}`);
-      this.state.trackList[i].play();
+      trackList[i].play();
+      // trackList[i].fade(0, 1, 5000);
+      trackList[i].on("play", () => {
+        trackList[i].fade(0, 1, fadeDurationMilliseconds);
+        setTimeout(
+          () => trackList[i].fade(1, 0, fadeDurationMilliseconds),
+          (trackDurationSeconds - trackList[i].seek()) * 1000 -
+            fadeDurationMilliseconds
+        );
+      });
     }
 
     this.state.trackList[i].on("end", () => {
