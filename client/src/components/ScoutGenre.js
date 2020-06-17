@@ -6,7 +6,7 @@ import {
   fetchRecommendations,
   likeTrack,
   convertGenreToProperNoun,
-  getTrackPreview,
+  fetchTrackPreview,
 } from "../helper";
 
 class ScoutGenre extends React.Component {
@@ -46,17 +46,18 @@ class ScoutGenre extends React.Component {
       {
         previousTrack: this.state.currentTrack,
         currentTrack: await this.getTrackHowl(i),
+        loaded: true,
       },
       () => {
         const { previousTrack, currentTrack } = this.state;
         console.log(`currentTrack = `, currentTrack);
-        const fadeDurationMilliseconds = 5000;
+        const fadeDurationMilliseconds = 2500;
         const trackDurationSeconds = 30;
         console.log("i = " + i);
-        if (i !== 0) {
-          console.log(`previousTrack = `, previousTrack);
-          previousTrack.stop();
-        }
+        // if (i !== 0) {
+        //   console.log(`previousTrack = `, previousTrack);
+        //   previousTrack.stop();
+        // }
         if (i <= this.state.recommendations.length) {
           console.log(`TRYING TO PLAY SONG OF i = ${i}`);
           currentTrack.play();
@@ -90,14 +91,18 @@ class ScoutGenre extends React.Component {
    * null gives us nothing to play back 😢
    */
   async getTrackUrl(i) {
-    return await getTrackPreview(this.state.recommendations[i].id);
+    return await fetchTrackPreview(this.state.recommendations[i].id);
   }
   nextTrack() {
+    this.state.currentTrack.stop();
     if (this.state.trackNum < this.state.recommendations.length - 1) {
-      this.setState({ trackNum: this.state.trackNum + 1 }, () => {
-        console.log("trackNum = ", this.state.trackNum);
-        this.playTrack(this.state.trackNum);
-      });
+      this.setState(
+        { trackNum: this.state.trackNum + 1, loaded: false },
+        () => {
+          console.log("trackNum = ", this.state.trackNum);
+          this.playTrack(this.state.trackNum);
+        }
+      );
     } else {
       this.refreshTracks();
     }

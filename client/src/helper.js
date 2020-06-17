@@ -55,14 +55,12 @@ export const fetchRecommendations = async (type, id) => {
   return await response.json();
 };
 
-export const getTrackPreview = async (id) => {
-  if (accessToken) {
-    const response = await fetch("https://api.spotify.com/v1/tracks/" + id, {
-      headers,
-    });
-    const json = await response.json();
-    return await json.preview_url;
-  }
+export const fetchTrackPreview = async (id) => {
+  const response = await fetch("https://api.spotify.com/v1/tracks/" + id, {
+    headers,
+  });
+  const json = await response.json();
+  return await json.preview_url;
 };
 
 export const likeTrack = (id) => {
