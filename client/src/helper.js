@@ -18,7 +18,6 @@ export const genres = [
   "punk",
   "reggae",
   "rock",
-  "sleep",
   "soul",
   "study",
   "techno",
