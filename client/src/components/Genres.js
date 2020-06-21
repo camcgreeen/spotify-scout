@@ -12,26 +12,18 @@ class Genres extends React.Component {
       filtered: genres,
     };
     this.handleChange = this.handleChange.bind(this);
-    this.myFunction = this.myFunction.bind(this);
   }
   handleChange(e) {
-    const regex = new RegExp(e.target.value, "gi");
-    const filtered = this.state.genres.filter((genre) => regex.test(genre));
-    this.setState({ filtered });
-  }
-  myFunction() {
-    return (
-      <ul>
-        {genres.map((genre) => (
-          <Link to={`/scout/genre/${genre}`}>
-            <li>{convertGenreToProperNoun(genre)}</li>
-          </Link>
-        ))}
-      </ul>
-    );
+    try {
+      const regex = new RegExp(e.target.value, "gi");
+      const filtered = this.state.genres.filter((genre) => regex.test(genre));
+      this.setState({ filtered });
+    } catch (err) {
+      console.log("Error with regular expression:", err);
+    }
   }
   render() {
-    const { genres, filtered } = this.state;
+    const { filtered } = this.state;
     return (
       <div className="Genres">
         <input
@@ -39,7 +31,6 @@ class Genres extends React.Component {
           placeholder="Search.."
           onChange={this.handleChange}
         />
-
         <ul>
           {filtered.map((genre) => (
             <Link to={`/scout/genre/${genre}`}>

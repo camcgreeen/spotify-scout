@@ -11,7 +11,9 @@ class Tracks extends React.Component {
     this.state = {
       loaded: false,
       topTracks: {},
+      filtered: [],
     };
+    this.handleChange = this.handleChange.bind(this);
   }
   componentDidMount() {
     this.getData();
@@ -20,20 +22,36 @@ class Tracks extends React.Component {
     try {
       const json = await fetchTopTracks();
       console.log("TOP TRACKS, ", json);
-      this.setState({ loaded: true, topTracks: json });
+      this.setState({ loaded: true, topTracks: json, filtered: json.items });
     } catch (err) {
       console.log("ERROR FETCHING TOP TRACKS", err);
     }
   }
+  handleChange(e) {
+    try {
+      const regex = new RegExp(e.target.value, "gi");
+      const filtered = this.state.topTracks.items.filter((track) =>
+        regex.test(track.name)
+      );
+      this.setState({ filtered });
+    } catch (err) {
+      console.log("Error with regular expression:", err);
+    }
+  }
   render() {
-    const { loaded, topTracks } = this.state;
+    const { loaded, filtered } = this.state;
     return (
       <div className="Tracks">
         {loaded ? (
           <React.Fragment>
             <h1>Top Tracks</h1>
+            <input
+              type="text"
+              placeholder="Search.."
+              onChange={this.handleChange}
+            />
             <ul>
-              {topTracks.items.map((track) => (
+              {filtered.map((track) => (
                 <li>
                   <Link
                     to={`/scout/track/${track.id}`}

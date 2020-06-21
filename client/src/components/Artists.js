@@ -10,30 +10,46 @@ class Artists extends React.Component {
     this.state = {
       loaded: false,
       topArtists: {},
+      filtered: [],
     };
+    this.handleChange = this.handleChange.bind(this);
   }
-
   componentDidMount() {
     this.getData();
   }
-
   async getData() {
     try {
       const json = await fetchTopArtists();
-      this.setState({ loaded: true, topArtists: json });
+      this.setState({ loaded: true, topArtists: json, filtered: json.items });
     } catch (err) {
       console.log("ERROR FETCHING TOP ARTISTS,", err);
     }
   }
-
+  handleChange(e) {
+    try {
+      const regex = new RegExp(e.target.value, "gi");
+      const filtered = this.state.topArtists.items.filter((artist) =>
+        regex.test(artist.name)
+      );
+      this.setState({ filtered });
+    } catch (err) {
+      console.log("Error with regular expression:", err);
+    }
+  }
   render() {
-    const { loaded, topArtists } = this.state;
+    const { loaded, filtered } = this.state;
     return (
       <div className="Artists">
         {loaded ? (
           <React.Fragment>
+            <h1>Top Artists</h1>
+            <input
+              type="text"
+              placeholder="Search.."
+              onChange={this.handleChange}
+            />
             <ul>
-              {topArtists.items.map((artist) => (
+              {filtered.map((artist) => (
                 <li>
                   <Link to={`/scout/artist/${artist.id}`}>{artist.name}</Link>
                 </li>
