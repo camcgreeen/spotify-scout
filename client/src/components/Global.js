@@ -8,9 +8,9 @@ import Tracks from "./Tracks";
 import Artists from "./Artists";
 import Genres from "./Genres";
 import Scout from "./Scout";
-import ScoutTrack from "./ScoutTrack";
-import ScoutArtist from "./ScoutArtist";
-import ScoutGenre from "./ScoutGenre";
+// import ScoutTrack from "./ScoutTrack";
+// import ScoutArtist from "./ScoutArtist";
+// import ScoutGenre from "./ScoutGenre";
 import ScrollToTop from "./ScrollToTop";
 
 class Global extends React.Component {
@@ -161,9 +161,9 @@ class Global extends React.Component {
               <Route path="/artists" component={Artists} />
               <Route path="/genres" component={Genres} />
               <Route path="/scout" exact component={Scout} />
-              <Route path="/scout/track/:id" exact component={ScoutTrack} />
-              <Route path="/scout/artist/:id" exact component={ScoutArtist} />
-              <Route path="/scout/genre/:id" exact component={ScoutGenre} />
+              <Route path="/scout/tracks/:id" exact component={Scout} />
+              <Route path="/scout/artists/:id" exact component={Scout} />
+              <Route path="/scout/genres/:id" exact component={Scout} />
             </Switch>
           </div>
         </ScrollToTop>

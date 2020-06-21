@@ -33,7 +33,7 @@ class Genres extends React.Component {
         />
         <ul>
           {filtered.map((genre) => (
-            <Link to={`/scout/genre/${genre}`}>
+            <Link to={`/scout/genres/${genre}`}>
               <li>{convertGenreToProperNoun(genre)}</li>
             </Link>
           ))}

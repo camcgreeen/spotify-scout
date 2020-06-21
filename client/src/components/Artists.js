@@ -51,7 +51,7 @@ class Artists extends React.Component {
             <ul>
               {filtered.map((artist) => (
                 <li>
-                  <Link to={`/scout/artist/${artist.id}`}>{artist.name}</Link>
+                  <Link to={`/scout/artists/${artist.id}`}>{artist.name}</Link>
                 </li>
               ))}
             </ul>
