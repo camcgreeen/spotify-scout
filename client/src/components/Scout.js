@@ -124,6 +124,24 @@ class Scout extends React.Component {
       this.setState({ notify: false });
     }, 2000);
   }
+  renderScoutType() {
+    const type = this.getScoutType();
+    switch (type) {
+      case "tracks":
+        return (
+          <React.Fragment>
+            <h2>{this.props.location.trackName}</h2>
+            <h4>{this.props.location.artistName}</h4>
+          </React.Fragment>
+        );
+      case "artists":
+        return <h2>{this.props.location.artistName}</h2>;
+      case "genres":
+        return <h2>{convertGenreToProperNoun(this.props.match.params.id)}</h2>;
+      default:
+        return <h1>Error loading Scout type</h1>;
+    }
+  }
   componentWillUnmount() {
     this.state.currentTrack.stop();
     this.setState(this.initialState);
@@ -142,7 +160,7 @@ class Scout extends React.Component {
         {loaded ? (
           <React.Fragment>
             <h3>Scouting based on</h3>
-            <h2>{convertGenreToProperNoun(this.props.match.params.id)}</h2>
+            {this.renderScoutType()}
             <img src={currentTrack.album.images[0].url} alt="album cover" />
             <h1>{currentTrack.name}</h1>
             <h4>{currentTrack.artists[0].name}</h4>

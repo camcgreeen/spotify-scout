@@ -51,7 +51,14 @@ class Artists extends React.Component {
             <ul>
               {filtered.map((artist) => (
                 <li>
-                  <Link to={`/scout/artists/${artist.id}`}>{artist.name}</Link>
+                  <Link
+                    to={{
+                      pathname: `/scout/artists/${artist.id}`,
+                      artistName: artist.name,
+                    }}
+                  >
+                    {artist.name}
+                  </Link>
                 </li>
               ))}
             </ul>

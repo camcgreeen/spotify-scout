@@ -54,7 +54,11 @@ class Tracks extends React.Component {
               {filtered.map((track) => (
                 <li>
                   <Link
-                    to={`/scout/tracks/${track.id}`}
+                    to={{
+                      pathname: `/scout/tracks/${track.id}`,
+                      trackName: track.name,
+                      artistName: track.artists[0].name,
+                    }}
                   >{`${track.name}, ${track.artists[0].name}`}</Link>
                 </li>
               ))}
