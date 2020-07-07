@@ -1,5 +1,5 @@
 import React from "react";
-import "../App.css";
+import "../App.scss";
 import { accessToken } from "../helper";
 import Login from "./Login";
 import Global from "./Global";

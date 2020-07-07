@@ -1,5 +1,5 @@
 import React from "react";
-import "../App.css";
+import "../App.scss";
 import { Howl, Howler } from "howler";
 import Loading from "./Loading";
 import {
@@ -18,7 +18,8 @@ class Scout extends React.Component {
       trackNum: 0,
       previousTrack: {},
       currentTrack: {},
-      notify: false,
+      canDisplayNotification: true,
+      displayNotification: false,
     };
     this.state = this.initialState;
     this.nextTrack = this.nextTrack.bind(this);
@@ -99,6 +100,7 @@ class Scout extends React.Component {
   }
   nextTrack() {
     this.state.currentTrack.stop();
+    this.setState({ canDisplayNotification: true });
     if (this.state.trackNum < this.state.recommendations.length - 1) {
       this.setState(
         { trackNum: this.state.trackNum + 1, loaded: false },
@@ -119,10 +121,10 @@ class Scout extends React.Component {
     );
   }
   showNotification() {
-    this.setState({ notify: true });
+    this.setState({ canDisplayNotification: false, displayNotification: true });
     setTimeout(() => {
-      this.setState({ notify: false });
-    }, 2000);
+      this.setState({ displayNotification: false });
+    }, 1500);
   }
   renderScoutType() {
     const type = this.getScoutType();
@@ -147,16 +149,39 @@ class Scout extends React.Component {
     this.setState(this.initialState);
   }
   render() {
-    const { loaded, recommendations, trackNum, notify } = this.state;
+    const {
+      loaded,
+      recommendations,
+      trackNum,
+      canDisplayNotification,
+      displayNotification,
+    } = this.state;
     const currentTrack = recommendations[trackNum];
-    const trackLikedStyle = {
-      position: "absolute",
-      left: "50%",
-      top: "50%",
-      transform: "translate(-50%, -50%)",
-    };
+    // const trackLikedStyle = {
+    //   position: "absolute",
+    //   display: "flex",
+    //   "justify-content": "center",
+    //   left: 0,
+    //   // top: "10vh",
+    //   top: "10vh",
+    //   margin: 0,
+    //   padding: 0,
+    //   // left: "50%",
+    //   // top: "50%",
+    //   // transform: "translate(-50%, -50%)",
+    //   "text-align": "center",
+    //   width: "100%",
+    //   height: "90vh",
+    //   "background-color": "yellow",
+    // };
     return (
       <div className="ScoutGenre">
+        {displayNotification && (
+          <div class="liked">
+            <h2>like icon</h2>
+            <h1>Added to your Liked Songs!</h1>
+          </div>
+        )}
         {loaded ? (
           <React.Fragment>
             <h3>Scouting based on</h3>
@@ -168,15 +193,13 @@ class Scout extends React.Component {
             <button
               onClick={() => {
                 likeTrack(currentTrack.id);
-                this.showNotification();
-                this.nextTrack();
+                this.state.canDisplayNotification && this.showNotification();
+                // this.nextTrack();
               }}
             >
               Like Track
             </button>
-            {notify && (
-              <h1 style={trackLikedStyle}>Added to your Liked Songs!</h1>
-            )}
+            <div id="track-progress" className="run-animation"></div>
           </React.Fragment>
         ) : (
           <Loading />

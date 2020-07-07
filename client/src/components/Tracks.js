@@ -1,5 +1,5 @@
 import React from "react";
-import "../App.css";
+import "../App.scss";
 import Loading from "./Loading";
 import { Link } from "react-router-dom";
 import { fetchTopTracks } from "../helper";
