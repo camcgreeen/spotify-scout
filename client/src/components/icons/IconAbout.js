@@ -1,8 +1,7 @@
 import React from "react";
 
-const IconInfo = ({ fill = "#FFF" }) => (
+const IconAbout = ({ fill = "#FFF" }) => (
   <svg
-    className="Login__nav__item"
     // width="26"
     // height="26"
     viewBox="0 0 26 26"
@@ -12,4 +11,4 @@ const IconInfo = ({ fill = "#FFF" }) => (
   </svg>
 );
 
-export default IconInfo;
+export default IconAbout;
