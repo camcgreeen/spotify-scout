@@ -17,7 +17,7 @@ var cookieParser = require("cookie-parser");
 var client_id = process.env.SPOTIFY_CLIENT_ID; // Your client id
 var client_secret = process.env.SPOTIFY_CLIENT_SECRET; // Your secret
 // var redirect_uri = "http://localhost:8888/callback"; // Your redirect uri
-var redirect_uri = "http://192.168.1.142:8888/callback"; // Your redirect uri
+var redirect_uri = "http://192.168.1.143:8888/callback"; // Your redirect uri
 const port = process.env.PORT || 8888;
 
 /**
@@ -112,7 +112,7 @@ app.get("/callback", function (req, res) {
 
         // we can also pass the token to the browser to make requests from there
         res.redirect(
-          "http://192.168.1.142:3000/?" +
+          "http://192.168.1.143:3000/?" +
             querystring.stringify({
               access_token: access_token,
               refresh_token: refresh_token,

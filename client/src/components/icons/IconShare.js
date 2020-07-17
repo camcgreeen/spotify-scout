@@ -1,6 +1,6 @@
 import React from "react";
 
-const IconShare = ({ fill = "#FFF" }) => (
+const IconShare = ({ fill = "#FFF", width, height }) => (
   // <svg
   //   className="Login__nav__item"
   //   // width="26px"
@@ -12,8 +12,8 @@ const IconShare = ({ fill = "#FFF" }) => (
   // </svg>
   <svg
     xmlns="http://www.w3.org/2000/svg"
-    // width="24px"
-    // height="24px"
+    width={width}
+    height={height}
     viewBox="0 0 24 24"
     version="1.1"
   >

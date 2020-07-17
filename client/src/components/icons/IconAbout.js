@@ -1,9 +1,11 @@
 import React from "react";
 
-const IconAbout = ({ fill = "#FFF" }) => (
+const IconAbout = ({ fill = "#FFF", width, height }) => (
   <svg
     // width="26"
     // height="26"
+    width={width}
+    height={height}
     viewBox="0 0 26 26"
     xmlns="http://www.w3.org/2000/svg"
   >

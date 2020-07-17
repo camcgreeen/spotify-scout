@@ -3,6 +3,14 @@ import "../App.scss";
 import { accessToken } from "../helper";
 import Login from "./Login";
 import Global from "./Global";
+import GlobalStyle from "../styles/GlobalStyle";
+import styled from "styled-components";
+
+const AppContainer = styled.div`
+  text-align: center;
+  margin: 0;
+  padding: 0;
+`;
 
 class App extends React.Component {
   constructor(props) {
@@ -13,7 +21,12 @@ class App extends React.Component {
   }
   render() {
     const { loggedIn } = this.state;
-    return <div className="App">{loggedIn ? <Global /> : <Login />}</div>;
+    return (
+      <AppContainer>
+        <GlobalStyle />
+        {loggedIn ? <Global /> : <Login />}
+      </AppContainer>
+    );
   }
 }
 
