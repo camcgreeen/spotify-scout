@@ -14,10 +14,11 @@ const GlobalStyle = createGlobalStyle`
   #root {
     margin: 0;
     padding: 0;
+    /* transition: all 0.25s ease-in-out; */
   }
   html,
   body {
-    background-color: #181818;
+    background-color: ${colours.bg};
     font-family: ${fonts.primary};
     font-size: ${fontSizes.base};
     color: ${colours.white};
@@ -26,7 +27,10 @@ const GlobalStyle = createGlobalStyle`
     margin: 0;
     padding: 0;
     height: 90%;
-    font-weight: 500;
+    /* font-weight: 500; */
+  }
+  h2, p {
+    font-weight: 400;
   }
 `;
 
